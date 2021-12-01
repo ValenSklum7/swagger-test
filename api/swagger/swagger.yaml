@@ -1,0 +1,111 @@
+swagger: "2.0"
+info:
+  version: "1.0"
+  title: Looks Microservice
+  description: "API that is responsible for the management of the looks"
+
+host: api.sklum.com
+basePath: /Api/Look
+schemes:
+  - https
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /GetLookListing:
+    x-swagger-router-controller: hello_world
+    get:
+      description: Returns a list of look by shop and language
+      operationId: hello
+      parameters:
+        - name: shop
+          in: query
+          description: The iso code that identifies the store and the language where the looks are to be obtained
+          required: true
+          type: string
+        - name: page
+          in: query
+          description: Page number. By default 0.
+          required: false
+          type: number
+        - name: idTag
+          in: query
+          description: The id of the tag by which you want to filter the looks
+          required: false
+          type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/Look"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /GetLookDetails:
+    x-swagger-router-controller: hello_world
+    get:
+      description: Returns a list of look by shop and language
+      operationId: hello2
+      parameters:
+        - name: shop
+          in: query
+          description: The iso code that identifies the store and the language where the looks are to be obtained
+          required: true
+          type: string
+
+        - name: idLook
+          in: query
+          description: The id of the tag by which you want to filter the looks
+          required: false
+          type: number
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Look"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /swagger:
+    x-swagger-pipe: swagger_raw
+
+definitions:
+  Look:
+    type: object
+    properties:
+      idLook:
+        type: number
+        example: 1
+      reference:
+        type: string
+        example: OFI2111_001
+      name:
+        type: string
+        example: Look 1
+      description:
+        type: string
+        example: Description of look 1
+      image_url_1:
+        type: string
+        example: https://www.sklum.com/img/core/skl/promos/looks/OFI2111_001/OFI2111_001_01.jpg
+      image_url_2:
+        type: string
+        example: https://www.sklum.com/img/core/skl/promos/looks/OFI2111_001/OFI2111_001_01.jpg
+      tag:
+        example: oficina
+        type: number
+
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
